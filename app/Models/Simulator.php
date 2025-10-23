@@ -6,5 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Simulator extends Model
 {
-    //
+    protected $fillable = ['title', 'slug'];
+
+    public function setTitleAttribute($value)
+    {
+        $this->attributes['title'] = $value;
+        // генерируем slug из title
+        $slug = \Illuminate\Support\Str::slug($value);
+        $this->attributes['slug'] = $this->refactorSlugAttribute($slug);
+    }
+
+    public function refactorSlugAttribute($value)
+    {
+        return strtolower($value);
+    }
+
 }
