@@ -20,6 +20,11 @@ class AdminSimulatorController extends Controller
     {
         $data = $request->validated();
 
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('simulators_photo', 'public');
+            $data['img_path'] = '/storage/' . $path;
+        }
+
         $simulator = Simulator::create($data);
 
         return response()->json([

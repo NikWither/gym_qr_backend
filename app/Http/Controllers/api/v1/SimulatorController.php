@@ -16,6 +16,8 @@ class SimulatorController extends Controller
 
     public function show(Simulator $simulator)
     {
-        return SimulatorResource::collection($simulator);
+        $simulator->increment('view_counter');
+
+        return new SimulatorResource($simulator);
     }
 }

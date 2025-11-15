@@ -16,8 +16,9 @@ class SimulatorResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'title' => $this->title,
             'description' => $this->description,
-            'img_path' => $this->img_path,
+            'img_path' => $this->img_path ? asset($this->img_path) : null,
             'view_counter' => $this->view_counter,
             'created_at' => $this->created_at?->format('d.m.Y'),
             'updated_at' => $this->updated_at?->format('d.m.Y'),

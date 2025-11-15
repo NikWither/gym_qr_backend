@@ -3,20 +3,20 @@
 use App\Http\Controllers\api\v1\admin\AdminSimulatorController;
 use App\Http\Controllers\api\v1\SimulatorController;
 use App\Http\Controllers\AuthController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// auth
 Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+Route::prefix('v1')->group(function () {
 
-    Route::get('/simulators-all', [SimulatorController::class, 'index']);
-    //Route::get('/simulators-all', [SimulatorController::class, 'index']);
+    // public routes (not auth)
+    Route::get('/simulators', [SimulatorController::class, 'index']);
+    Route::get('/simulators/{simulator}', [SimulatorController::class, 'show']);
 
-    Route::prefix('v1')->group(function () {
-        Route::prefix('admin')->group(function () {
-            Route::apiResource('simulators', AdminSimulatorController::class);
-        });
+    // admin
+    Route::middleware('auth:sanctum')->prefix('admin')->group(function () {
+        Route::apiResource('simulators', AdminSimulatorController::class);
     });
 });

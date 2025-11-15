@@ -3,10 +3,18 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Simulator extends Model
 {
-    protected $fillable = ['title', 'slug'];
+    protected $table = 'simulators';
+
+    protected $fillable = ['title', 'slug', 'img_path'];
+
+    public function qrCode(): HasOne
+    {
+        return $this->hasOne(QrCode::class, 'simulator_id', 'id');
+    }
 
     public function setTitleAttribute($value)
     {
@@ -20,5 +28,4 @@ class Simulator extends Model
     {
         return strtolower($value);
     }
-
 }
